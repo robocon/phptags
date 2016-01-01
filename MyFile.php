@@ -2,15 +2,15 @@
 class MyFile
 {
     public $allFiles = array();
-    public $path = '';
+    public $base_path = '';
     public $rows = 0;
 
     public function __construct($path = null){
-        $this->path = $path;
+        $this->base_path = $path;
     }
 
     public function getPath(){
-        return $this->path;
+        return $this->base_path;
     }
 
     public function getItems($path = null){
@@ -20,13 +20,18 @@ class MyFile
 
     public function updateFiles($path = null)
     {
+        
+        if( $path === null ){
+            $path = $this->base_path;
+        }
+        
         $items = $this->getItems($path);
         foreach ($items as $item) {
             if (is_dir($item)) {
-                $this->list_file($item);
+                $this->updateFiles($item);
             }else{
+                
                 if (preg_match('/.+(\.php)$/', $item)) {
-
                     $content = file_get_contents($item);
                     $pattern = '/\<\?\s?(?!php)+(?!\=)/m';
 
