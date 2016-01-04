@@ -33,7 +33,7 @@ class MyFile
                 
                 if (preg_match('/.+(\.php)$/', $item)) {
                     $content = file_get_contents($item);
-                    $pattern = '/\<\?\s?(?!php)+(?!\=)/m';
+                    $pattern = '/\<\?(PHP)?\s?(?!php)+(?!\=)/mi';
 
                     // Check before replace
                     if (preg_match($pattern, $content) > 0) {
